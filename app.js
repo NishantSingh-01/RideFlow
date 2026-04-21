@@ -7,6 +7,8 @@ app.get('/',(req,res)=>{
     res.send(`hello Nishant`)
 })
 
+
+app.get() ;
 app.get('/stress-test',(req,res)=>{
     for(let i=0 ;i<1000000;i++){
 
