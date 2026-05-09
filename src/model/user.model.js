@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import jsonwebtoken from 'jsonwebtoken'
 
 const userSchema = new mongoose.Schema({
     fullname: {
@@ -12,7 +13,6 @@ const userSchema = new mongoose.Schema({
             type: String
         }
     },
-
     email: {
         type: String,
         required: [true, "Email is required"],
@@ -26,6 +26,15 @@ const userSchema = new mongoose.Schema({
         required: [true, "Password is required"],
         minlength: [6, "Password must be at least 6 characters"],
         select: false
+    },
+    role:{
+      type:String,
+      enum:['rider','driver','admin'],
+      default:'rider'
+    },
+    profilePhoto:{
+      type:String,
+      default:""
     },
     socketId: {
         type: String
@@ -48,7 +57,7 @@ userSchema.methods.generateAuthToken = function () {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "7d"
+      expiresIn: process.env.JWT_EXPIRY
     }
   );
 }
